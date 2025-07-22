@@ -1,25 +1,49 @@
 class Solution {
     public int[] searchRange(int[] nums, int target) {
-        int a=-1;
-        int b=-1;
-        int num=nums.length;
-        int count=0;
-        int[] arr=new int[]{a,b};
-        for(int i=0;i<num;i++){
-            if(count==0){
-                if(nums[i]==target){
-                    a=i;
-                    b=i;
-                    count++;
-                }
-            }else{
-                if(nums[i]==target){
-                    b=i;
+        int first=firstelement(nums,target);
+        int last=lastelement(nums,target);
+        if(first!=-1 && last==-1){
+            last=first;
+        }
+        return new int[]{first,last};
+    }
+        public static int firstelement(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length - 1;
+        int result=-1;
 
-                }
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            
+
+            if (nums[mid] == target) {
+                result=mid; // Target found
+                high=mid-1;
+            } else if (nums[mid] < target) {
+                low = mid + 1; // Search right half
+            } else {
+                high = mid - 1; // Search left half
             }
         }
-        
-        return new int[]{a,b};
+        return result;
     }
+        public static int lastelement(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length - 1;
+        int result=-1;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            if (nums[mid] == target) {
+                result= mid; // Target found
+                low=mid+1;
+            } else if (nums[mid] < target) {
+                low = mid + 1; // Search right half
+            } else {
+                high = mid - 1; // Search left half
+            }
+        }
+        return result;
+    }   
 }
