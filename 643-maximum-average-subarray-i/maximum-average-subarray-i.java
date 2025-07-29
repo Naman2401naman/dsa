@@ -11,14 +11,14 @@ class Solution {
             sum+=list.get(index);
             index++;
         }
-        max=sum/k;
+        max=sum;
         for(int i=1;i<nums.length-k+1;i++){
             int prevval=list.get(i-1);
             int next=list.get(i+k-1);
             sum=(sum-prevval+next);
-            double sum1=sum/k;
-            max=Math.max(sum1,max);
+            
+            max=Math.max(sum,max);
         }
-        return max;
+        return max/k;
     }
 }
