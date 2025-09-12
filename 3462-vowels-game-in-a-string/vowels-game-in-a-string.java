@@ -4,10 +4,9 @@ class Solution {
         for(int i=0;i<s.length();i++){
             char ch=s.charAt(i);
             if(ch=='e' || ch=='a' || ch=='i' || ch=='o' || ch=='u'){
-                count++;
+                return true;
             }
         } 
-        if(count!=0) return true;
-        return false;
+        return false; 
     }
 }
