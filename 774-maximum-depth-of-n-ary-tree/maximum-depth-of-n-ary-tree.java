@@ -22,19 +22,14 @@ class Solution {
         if(root==null){
             return 0;
         }
-        Queue<Node> queue=new LinkedList<>();
-        queue.offer(root);
-        int depth=0;
-        while(!queue.isEmpty()){
-            int size=queue.size();
-            for(int i=0;i<size;i++){
-                Node current = queue.poll();
-                for(Node child:current.children){
-                    queue.offer(child);
-                }
+        int maxdepth=0;
+        if(root.children!=null){
+            for(Node child:root.children){
+                int curr=maxDepth(child);
+                 
+                 maxdepth=Math.max(maxdepth,curr);
             }
-            depth++;
         }
-        return depth;
+        return 1+ maxdepth;
     }
 }
