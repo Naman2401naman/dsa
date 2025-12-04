@@ -1,50 +1,17 @@
 class Solution {
     public int countCollisions(String directions) {
-        int n = directions.length();
-        Stack<Character> st = new Stack<>();
-        int count = 0;
+        int i=0;
+        while(i<directions.length() && directions.charAt(i)=='L') i++;
 
-        st.push(directions.charAt(0));
+        int j=directions.length()-1;
+        while(j>=0 && directions.charAt(j)=='R') j--;
 
-        for (int i = 1; i < n; i++) {
-            char ch = directions.charAt(i);
-
-            if (ch == 'L') {
-
-                // Case 1: "R" + "L" → both collide → becomes "S"
-                if (!st.isEmpty() && st.peek() == 'R') {
-                    count += 2;     // R hits L
-                    st.pop();
-                    st.push('S');
-
-                    // If below stack also had more R...RR + L
-                    while (!st.isEmpty() && st.size() > 1 && st.get(st.size() - 2) == 'R') {
-                        count++;   // Each extra R also collides
-                        st.remove(st.size() - 2);
-                    }
-
-                // Case 2: "S" + "L" → L hits S → becomes S
-                } else if (!st.isEmpty() && st.peek() == 'S') {
-                    count++;
-                    st.push('S');
-                } else {
-                    st.push('L');
-                }
-
-            } else if (ch == 'R') {
-                st.push('R');
-
-            } else if (ch == 'S') {
-
-                // All previous R's collide into S
-                while (!st.isEmpty() && st.peek() == 'R') {
-                    count++;
-                    st.pop();   // R becomes S after collision
-                }
-                st.push('S');
+        int count=0;
+        for(int k=i;k<=j;k++){
+            if(directions.charAt(k)!='S'){
+                count++;
             }
         }
-
-        return count;
+    return count;
     }
 }
