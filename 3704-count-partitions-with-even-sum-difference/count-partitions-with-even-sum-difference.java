@@ -12,7 +12,7 @@ class Solution {
             se += nums[j];
             int ans = sum - se;
 
-            if ((sum - 2 * se) % 2 == 0) {
+            if ((ans-se) % 2 == 0) {
                 count++;
             }
         }
