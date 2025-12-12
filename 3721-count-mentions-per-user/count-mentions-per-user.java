@@ -1,46 +1,53 @@
 class Solution {
+
     public int[] countMentions(int numberOfUsers, List<List<String>> events) {
-        int[] mentions = new int[numberOfUsers];
-        int[] offlineTime = new int[numberOfUsers];
 
+        int[] mentions = new int[numberOfUsers];     // answer
+        int[] offline = new int[numberOfUsers];      // last offline time
+
+        // 1️⃣ Sort by time
+        // if time same → OFFLINE first
         events.sort((a, b) -> {
-            int timeA = Integer.parseInt(a.get(1));
-            int timeB = Integer.parseInt(b.get(1));
-            return timeA == timeB ? b.get(0).compareTo(a.get(0)) : timeA - timeB;
-        });
+            int t1 = Integer.parseInt(a.get(1));
+            int t2 = Integer.parseInt(b.get(1));
 
-        for (List<String> event : events) {
-            if (event.get(0).equals("MESSAGE")) {
-                handleMessage(event, mentions, offlineTime);
-            } else if (event.get(0).equals("OFFLINE")) {
-                handleOffline(event, offlineTime);
+            if (t1 != t2) return t1 - t2;
+            return a.get(0).equals("OFFLINE") ? -1 : 1;
+        });
+        for (List<String> e : events) {
+
+            if (e.get(0).equals("OFFLINE")) {
+                int time = Integer.parseInt(e.get(1));
+                int id = Integer.parseInt(e.get(2));
+                offline[id] = time;
+            }
+
+            else {
+                int time = Integer.parseInt(e.get(1));
+                String[] words = e.get(2).split(" ");
+
+                for (String w : words) {
+
+                    if (w.equals("ALL")) {
+                        for (int i = 0; i < numberOfUsers; i++)
+                            mentions[i]++;
+                    }
+
+                    else if (w.equals("HERE")) {
+                        for (int i = 0; i < numberOfUsers; i++) {
+                            if (offline[i] == 0 || offline[i] + 60 <= time)
+                                mentions[i]++;
+                        }
+                    }
+
+                    else {
+                        int id = Integer.parseInt(w.substring(2));
+                        mentions[id]++;
+                    }
+                }
             }
         }
 
         return mentions;
-    }
-
-    private void handleMessage(List<String> event, int[] mentions, int[] offlineTime) {
-        int timestamp = Integer.parseInt(event.get(1));
-        String[] tokens = event.get(2).split(" ");
-
-        for (String token : tokens) {
-            if (token.equals("ALL")) {
-                for (int i = 0; i < mentions.length; i++) mentions[i]++;
-            } else if (token.equals("HERE")) {
-                for (int i = 0; i < mentions.length; i++) {
-                    if (offlineTime[i] == 0 || offlineTime[i] + 60 <= timestamp) mentions[i]++;
-                }
-            } else {
-                int id = Integer.parseInt(token.substring(2));
-                mentions[id]++;
-            }
-        }
-    }
-
-    private void handleOffline(List<String> event, int[] offlineTime) {
-        int timestamp = Integer.parseInt(event.get(1));
-        int id = Integer.parseInt(event.get(2));
-        offlineTime[id] = timestamp;
     }
 }
