@@ -6,17 +6,15 @@ class Solution {
         for (int i = 0; i < n; i++) {
             result[i] = -1;
         }
-        for (int i = 0; i < 2 * n; i++) {
+        for (int i = 0;i < 2*n; i++) {
             int idx = i % n;
-
-            while (!stack.isEmpty() && nums[idx] > nums[stack.peek()]) {
+            while (!stack.isEmpty() && nums[idx]>nums[stack.peek()]) {
                 result[stack.pop()] = nums[idx];
             }
             if (i < n) {
                 stack.push(idx);
             }
         }
-
         return result;
     }
 }
