@@ -1,33 +1,18 @@
 class Solution {
     public int numSteps(String s) {
+        int step=0;
+        int c=0;
+        for(int i=s.length()-1;i>0;i--){
+            int bit=c+(s.charAt(i)-'0');
 
-        int steps = 0;
-        StringBuilder sb = new StringBuilder(s);
-
-        while (!sb.toString().equals("1")) {
-
-            if (sb.charAt(sb.length() - 1) == '0') {
-                // even → divide by 2
-                sb.deleteCharAt(sb.length() - 1);
-            } else {
-                // odd → add 1 (binary addition)
-                int i = sb.length() - 1;
-
-                while (i >= 0 && sb.charAt(i) == '1') {
-                    sb.setCharAt(i, '0');
-                    i--;
-                }
-
-                if (i < 0) {
-                    sb.insert(0, '1');
-                } else {
-                    sb.setCharAt(i, '1');
-                }
+            if(bit==1){
+                step+=2;
+                c=1;
+            }else{
+                step+=1;
             }
 
-            steps++;
         }
-
-        return steps;
+        return step+c;
     }
 }
