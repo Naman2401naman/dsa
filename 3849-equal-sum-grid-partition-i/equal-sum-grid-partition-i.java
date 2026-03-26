@@ -34,6 +34,20 @@ class Solution {
                 return true;
             }
         }
+        for(int i=0;i<r.length;i++){
+            for(int j=0;j<grid[0].length;j++){
+                if((r[i]-grid[i][j])*2==(total-grid[i][j]*2)){
+                    return true;
+                }
+            }
+        }
+        for(int i=0;i<c.length;i++){
+            for(int j=0;j<grid.length;j++){
+                if((c[i]-grid[j][i])*2==(total-grid[j][i]*2)){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 }
