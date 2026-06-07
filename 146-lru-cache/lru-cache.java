@@ -1,25 +1,24 @@
 class LRUCache {
     final int capacity;
-    final LinkedHashMap<Integer,Integer> cache;
+    final LinkedHashMap<Integer,Integer> mp;
     public LRUCache(int capacity) {
         this.capacity=capacity;
-        this.cache=new LinkedHashMap<>(capacity,0.75f,true);
+        this.mp=new LinkedHashMap<>(capacity,0.75f,true);
     }
     
     public int get(int key) {
-        return cache.getOrDefault(key,-1);
+        return mp.getOrDefault(key,-1);
     }
     
     public void put(int key, int value) {
-        if (cache.containsKey(key)) {
-            cache.put(key, value); // Update
-        } else {
-            if (cache.size() >= capacity) {
-                // Remove least recently used (first entry)
-                int oldestKey = cache.keySet().iterator().next();
-                cache.remove(oldestKey);
+        if(mp.containsKey(key)){
+            mp.put(key,value);
+        }else{
+            if(mp.size()>=capacity){
+                int old=mp.keySet().iterator().next();
+                mp.remove(old);
             }
-            cache.put(key, value);
+            mp.put(key,value);
         }
     }
 }
